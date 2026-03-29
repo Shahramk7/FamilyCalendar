@@ -1,0 +1,31 @@
+@import 'tailwindcss';
+
+@theme {
+	/* Hearth-inspired warm palette */
+	--color-cream: #FDF6EC;
+	--color-cream-dark: #F5EBDA;
+	--color-warm-gray: #6B6560;
+	--color-warm-gray-light: #9C9590;
+	--color-charcoal: #3A3530;
+
+	/* Family member preset colors */
+	--color-member-coral: #E8786B;
+	--color-member-teal: #4CB8A5;
+	--color-member-amber: #E8A84C;
+	--color-member-lavender: #8B7EC8;
+	--color-member-sky: #5BA4D9;
+	--color-member-rose: #D4749A;
+	--color-member-mint: #6BC4A6;
+	--color-member-peach: #E89B73;
+
+	/* Spacing */
+	--spacing-grid: 4px;
+
+	/* Border radius */
+	--radius-card: 12px;
+	--radius-pill: 20px;
+	--radius-sm: 6px;
+
+	/* Fonts */
+	--font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
