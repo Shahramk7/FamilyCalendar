@@ -25,6 +25,10 @@
 		viewMode = 'week';
 		selectedDate = null;
 	}
+
+	function handleDayNavigate(date: Date) {
+		selectedDate = date;
+	}
 </script>
 
 <svelte:head>
@@ -76,6 +80,7 @@
 				members={data.members}
 				events={data.events}
 				onDayClick={handleDayClick}
+				onNavigateDay={handleDayNavigate}
 			/>
 		{/if}
 

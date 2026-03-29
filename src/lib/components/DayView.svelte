@@ -6,12 +6,14 @@
 		date,
 		members,
 		events,
-		onDayClick
+		onDayClick,
+		onNavigateDay
 	}: {
 		date: Date;
 		members: Member[];
 		events: CalendarEvent[];
 		onDayClick: (date: Date) => void;
+		onNavigateDay: (date: Date) => void;
 	} = $props();
 
 	const DAY_START = 7;
@@ -55,13 +57,13 @@
 	function prevDay() {
 		const prev = new Date(date);
 		prev.setDate(prev.getDate() - 1);
-		onDayClick(prev);
+		onNavigateDay(prev);
 	}
 
 	function nextDay() {
 		const next = new Date(date);
 		next.setDate(next.getDate() + 1);
-		onDayClick(next);
+		onNavigateDay(next);
 	}
 </script>
 
