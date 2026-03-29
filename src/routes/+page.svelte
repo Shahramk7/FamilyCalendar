@@ -72,6 +72,7 @@
 				weekStart={new Date(data.weekStart)}
 				members={data.members}
 				events={data.events}
+				meals={data.meals}
 				onDayClick={handleDayClick}
 			/>
 		{:else if selectedDate}

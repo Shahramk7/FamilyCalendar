@@ -1,7 +1,7 @@
 import type { PageServerLoad } from './$types';
 import type { CalendarEvent, Member } from '$lib/types';
 import { getSessionId, getSessionFamilyId } from '$lib/server/session';
-import { getFamily, getMembers } from '$lib/server/db';
+import { getFamily, getMembers, getMealsForWeek } from '$lib/server/db';
 import { fetchAllMemberEvents, getWeekBounds } from '$lib/server/events';
 import { redirect } from '@sveltejs/kit';
 
@@ -46,10 +46,21 @@ export const load: PageServerLoad = async ({ cookies, platform, url }) => {
 		});
 	}
 
+	// Load meal selections for the week
+	const meals = members.length > 0
+		? await getMealsForWeek(
+				env.DB,
+				members.map((m) => m.id),
+				timeMin.split('T')[0],
+				timeMax.split('T')[0]
+			)
+		: [];
+
 	return {
 		family,
 		members,
 		events,
+		meals,
 		weekStart: timeMin,
 		weekEnd: timeMax
 	};

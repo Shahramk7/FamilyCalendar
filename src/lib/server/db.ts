@@ -96,3 +96,46 @@ export async function updateMemberTokens(
 export async function deleteMember(db: D1Database, memberId: string): Promise<void> {
 	await db.prepare('DELETE FROM members WHERE id = ?').bind(memberId).run();
 }
+
+export async function getMealsForWeek(
+	db: D1Database,
+	memberIds: string[],
+	dateFrom: string,
+	dateTo: string
+): Promise<{ member_id: string; date: string; meal_type: string }[]> {
+	if (memberIds.length === 0) return [];
+	const placeholders = memberIds.map(() => '?').join(', ');
+	const result = await db
+		.prepare(
+			`SELECT member_id, date, meal_type FROM meals WHERE member_id IN (${placeholders}) AND date >= ? AND date <= ?`
+		)
+		.bind(...memberIds, dateFrom, dateTo)
+		.all<{ member_id: string; date: string; meal_type: string }>();
+	return result.results;
+}
+
+export async function toggleMeal(
+	db: D1Database,
+	memberId: string,
+	date: string,
+	mealType: 'breakfast' | 'lunch'
+): Promise<boolean> {
+	const existing = await db
+		.prepare('SELECT 1 FROM meals WHERE member_id = ? AND date = ? AND meal_type = ?')
+		.bind(memberId, date, mealType)
+		.first();
+
+	if (existing) {
+		await db
+			.prepare('DELETE FROM meals WHERE member_id = ? AND date = ? AND meal_type = ?')
+			.bind(memberId, date, mealType)
+			.run();
+		return false;
+	} else {
+		await db
+			.prepare('INSERT INTO meals (member_id, date, meal_type) VALUES (?, ?, ?)')
+			.bind(memberId, date, mealType)
+			.run();
+		return true;
+	}
+}

@@ -6,12 +6,16 @@
 		events,
 		color,
 		dayStart,
-		dayEnd
+		dayEnd,
+		breakfast = false,
+		lunch = false
 	}: {
 		events: CalendarEvent[];
 		color: string;
 		dayStart: number;
 		dayEnd: number;
+		breakfast?: boolean;
+		lunch?: boolean;
 	} = $props();
 
 	const totalHours = $derived(dayEnd - dayStart);
@@ -30,6 +34,10 @@
 	);
 
 	const allDayEvents = $derived(events.filter((e) => e.all_day));
+
+	// Time-accurate positions: breakfast at 8am, lunch at 12pm
+	const breakfastLeft = $derived(`${((8 - dayStart) / totalHours) * 100}%`);
+	const lunchLeft = $derived(`${((12 - dayStart) / totalHours) * 100}%`);
 </script>
 
 <div class="relative h-6 w-full">
@@ -53,4 +61,20 @@
 			title="{bar.title} ({new Date(bar.start).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })} - {new Date(bar.end).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })})"
 		></div>
 	{/each}
+
+	<!-- Meal icons at time-accurate positions -->
+	{#if breakfast}
+		<span
+			class="pointer-events-none absolute top-1/2 -translate-y-1/2 leading-none select-none"
+			style="left: {breakfastLeft}; font-size: 10px;"
+			title="Breakfast"
+		>☕</span>
+	{/if}
+	{#if lunch}
+		<span
+			class="pointer-events-none absolute top-1/2 -translate-y-1/2 leading-none select-none"
+			style="left: {lunchLeft}; font-size: 10px;"
+			title="Lunch"
+		>🍽️</span>
+	{/if}
 </div>
