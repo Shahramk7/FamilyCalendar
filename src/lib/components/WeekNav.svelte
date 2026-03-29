@@ -14,16 +14,20 @@
 		onBackToWeek: () => void;
 	} = $props();
 
+	function toLocalDateStr(d: Date): string {
+		return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+	}
+
 	function prevWeek() {
 		const prev = new Date(weekStart);
 		prev.setDate(prev.getDate() - 7);
-		window.location.href = `/?week=${prev.toISOString().split('T')[0]}`;
+		window.location.href = `/?week=${toLocalDateStr(prev)}`;
 	}
 
 	function nextWeek() {
 		const next = new Date(weekStart);
 		next.setDate(next.getDate() + 7);
-		window.location.href = `/?week=${next.toISOString().split('T')[0]}`;
+		window.location.href = `/?week=${toLocalDateStr(next)}`;
 	}
 
 	function goToday() {
