@@ -1,6 +1,6 @@
 import type { PageServerLoad, Actions } from './$types';
 import { getSessionId, getSessionFamilyId, createSession } from '$lib/server/session';
-import { getFamily, createFamily, getMembers, createMember, deleteMember } from '$lib/server/db';
+import { getFamily, getFamilyByName, createFamily, getMembers, createMember, deleteMember } from '$lib/server/db';
 import { fail } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async ({ cookies, platform, url }) => {
@@ -39,6 +39,12 @@ export const actions: Actions = {
 
 		if (!name || name.trim().length === 0) {
 			return fail(400, { error: 'Family name is required' });
+		}
+
+		const existing = await getFamilyByName(env.DB, name.trim());
+		if (existing) {
+			await createSession(env.SESSIONS, existing.id, cookies);
+			return { success: true };
 		}
 
 		const familyId = crypto.randomUUID();

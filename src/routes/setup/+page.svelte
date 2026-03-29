@@ -35,9 +35,9 @@
 		{#if !data.family}
 			<!-- Create Family -->
 			<div class="rounded-[12px] bg-white p-6 shadow-sm">
-				<h2 class="mb-4 text-xl font-semibold text-[#3A3530]">Create Your Family</h2>
+				<h2 class="mb-4 text-xl font-semibold text-[#3A3530]">Find or Create Your Family</h2>
 				<p class="mb-4 text-sm text-[#6B6560]">
-					Choose a name for your family calendar.
+					Enter your family name to join an existing calendar, or type a new name to create one.
 				</p>
 				<form method="POST" action="?/createFamily" use:enhance>
 					<div class="flex gap-3">
@@ -52,7 +52,7 @@
 							type="submit"
 							class="rounded-[12px] bg-[#E8786B] px-6 py-3 font-semibold text-white transition hover:bg-[#D66B5E]"
 						>
-							Create
+							Join / Create
 						</button>
 					</div>
 				</form>

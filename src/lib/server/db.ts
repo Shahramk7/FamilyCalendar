@@ -28,6 +28,10 @@ export async function createFamily(db: D1Database, id: string, name: string): Pr
 	await db.prepare('INSERT INTO families (id, name) VALUES (?, ?)').bind(id, name).run();
 }
 
+export async function getFamilyByName(db: D1Database, name: string): Promise<Family | null> {
+	return db.prepare('SELECT * FROM families WHERE LOWER(name) = LOWER(?)').bind(name).first<Family>();
+}
+
 export async function getMembers(db: D1Database, familyId: string): Promise<Member[]> {
 	const result = await db
 		.prepare('SELECT * FROM members WHERE family_id = ? ORDER BY created_at')
