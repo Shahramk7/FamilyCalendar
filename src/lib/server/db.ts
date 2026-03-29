@@ -32,6 +32,27 @@ export async function getFamilyByName(db: D1Database, name: string): Promise<Fam
 	return db.prepare('SELECT * FROM families WHERE LOWER(name) = LOWER(?)').bind(name).first<Family>();
 }
 
+export async function getAllFamilies(db: D1Database): Promise<(Family & { member_count: number })[]> {
+	const result = await db
+		.prepare(`
+			SELECT f.*, COUNT(m.id) as member_count
+			FROM families f
+			LEFT JOIN members m ON m.family_id = f.id
+			GROUP BY f.id
+			ORDER BY f.created_at DESC
+		`)
+		.all<Family & { member_count: number }>();
+	return result.results;
+}
+
+export async function updateFamilyName(db: D1Database, familyId: string, name: string): Promise<void> {
+	await db.prepare('UPDATE families SET name = ? WHERE id = ?').bind(name, familyId).run();
+}
+
+export async function deleteFamily(db: D1Database, familyId: string): Promise<void> {
+	await db.prepare('DELETE FROM families WHERE id = ?').bind(familyId).run();
+}
+
 export async function getMembers(db: D1Database, familyId: string): Promise<Member[]> {
 	const result = await db
 		.prepare('SELECT * FROM members WHERE family_id = ? ORDER BY created_at')
