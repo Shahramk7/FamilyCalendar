@@ -9,14 +9,14 @@
 		{
 			"binding": "DB",
 			"database_name": "family-calendar-db",
-			"database_id": "placeholder-replace-after-wrangler-d1-create"
+			"database_id": "3969e5e9-d775-4175-aec1-1ae86af887ff"
 		}
 	],
 
 	"kv_namespaces": [
 		{
 			"binding": "SESSIONS",
-			"id": "placeholder-replace-after-wrangler-kv-create"
+			"id": "27ae9b85a3e44016a14671f46d8f27ce"
 		}
 	]
 }
