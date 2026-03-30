@@ -19,7 +19,7 @@ export function getWeekDays(weekStart: Date): { date: Date; label: string; dateL
 		days.push({
 			date,
 			label: dayNames[i],
-			dateLabel: `${date.getMonth() + 1}/${date.getDate()}`,
+			dateLabel: `${date.getDate()}/${date.getMonth() + 1}`,
 			isToday
 		});
 	}
